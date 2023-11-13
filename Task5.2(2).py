@@ -19,7 +19,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     dataset_path = args.dataset_path
     adata = sc.read(dataset_path)
-    random_indices = np.random.randint(0, adata.shape[0], size=20000)
+    random_indices = np.random.randint(0, adata.shape[0], size=10000)
     adata = adata[random_indices, :]
     data = adata.obsm['X_harmony']
     cell_types = adata.obs.cell_type_original
