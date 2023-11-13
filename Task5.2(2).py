@@ -19,7 +19,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     dataset_path = args.dataset_path
     adata = sc.read(dataset_path)
-    random_indices = np.random.randint(0, adata.shape[0], size=10000)
+    random_indices = np.random.randint(0, adata.shape[0], size=20000)
     adata = adata[random_indices, :]
     data = adata.obsm['X_harmony']
     cell_types = adata.obs.cell_type_original
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     train_data, test_data, train_labels, test_labels = train_test_split(data, encoded_cell_types, test_size=0.3, random_state=42)
     over_sampler = RandomOverSampler(sampling_strategy='auto', random_state=42)
     train_data, train_labels = over_sampler.fit_resample(train_data, train_labels)
-    supervised_model.fit(train_data, train_labels, verbose=1, epochs=10, shuffle=False)
+    supervised_model.fit(train_data, train_labels, verbose=1, epochs=100, shuffle=False)
     predictions = supervised_model.predict(test_data)
     predicted_indices = np.argmax(predictions, axis=1)
     labels = np.unique(cell_types).tolist()
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     plt.xticks(rotation=25, ha="right")
     plt.xlabel("Predicted")
     plt.ylabel("Actual")
-    plt.title("Transformer Model Heatmap")
+    plt.title("FFNN Model Heatmap")
     cbar = heatmap.collections[0].colorbar
     cbar.set_label('Count', rotation=270, labelpad=15)
     plt.tight_layout()
